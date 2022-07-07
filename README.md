@@ -1,6 +1,6 @@
 # EvamJavaBootcamp_FinalProjects
 
-##### Toplam iki tane bitirpe projesi ödevi vardır. İstenilen proje dosyasına girilerek proje hakkında ayrıntılı bilgiye sahip olabilirsiniz. Aşağıda sadece tasarlanması istenilen projeler mevcuttur:
+**```Toplam iki tane bitirpe projesi ödevi vardır. İstenilen proje dosyasına girilerek proje hakkında ayrıntılı bilgiye sahip olabilirsiniz. Aşağıda sadece tasarlanması istenilen projeler mevcuttur:```**
 
 ### 1.SpringBoot ile final projesi:
 
