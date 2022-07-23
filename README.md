@@ -2,6 +2,8 @@
 
 **```Toplam iki tane bitirme projesi ödevi mevcuttur. İstenilen proje dosyasına girilerek dosya içerisindeki Readme.md dosyasını inceleyebilir ve o projedeki kodlara ve nasıl çalıştığına bakabilirsiniz. Aşağıda sadece tasarlanması istenilen projelerin açıklamaları mevcuttur:```**
 
+[Deneme]#denemekismi
+
 ### 1.SpringBoot ile final projesi:
 
 ● Bir müşteri bilgisi alıp kayıt eden, bir fatura bilgisi kayıt
@@ -82,3 +84,5 @@ Kare şeklinde nxn kutulardan oluşan bir panelde iki kişi tarafından oynanan 
 - Panele her karakter girişinde panelin güncel hali satır ve sütun numaraları ile birlikte ve oyuncuların puan durumu ekranda gösterilir.
 
 - Dolu kutulara harf yazılmasına izin verilmez.
+
+##denemekismi
