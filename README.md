@@ -1,10 +1,16 @@
-# EvamJavaBootcamp_FinalProjects
+# *<p align="center">Evam Java Bootcamp Final Projesi</p>*
 
-**```Toplam iki tane bitirme projesi ödevi mevcuttur. İstenilen proje dosyasına girilerek dosya içerisindeki Readme.md dosyasını inceleyebilir ve o projedeki kodlara ve nasıl çalıştığına bakabilirsiniz. Aşağıda sadece tasarlanması istenilen projelerin açıklamaları mevcuttur:```**
+## Bölümler:
 
-[<img src="https://i.ibb.co/XbyGTrP/1-authentication-2-36x36.png" width="28" height="28" /> Deneme](#adada)<br>
+[<img src="https://i.ibb.co/XbyGTrP/1-authentication-2-36x36.png" width="28" height="28" /> 1- Projenin Açıklaması](#proje)<br>
+[<img src="https://i.ibb.co/XbyGTrP/1-authentication-2-36x36.png" width="28" height="28" /> 2- Veritabanındaki tablo açıklamaları](#tablolar)<br>
+[<img src="https://i.ibb.co/XbyGTrP/1-authentication-2-36x36.png" width="28" height="28" /> 3- Path Açıklamaları](#path)<br>
+[<img src="https://i.ibb.co/XbyGTrP/1-authentication-2-36x36.png" width="28" height="28" /> 4- Postman Kullanımı](#postman)<br>
+[<img src="https://i.ibb.co/XbyGTrP/1-authentication-2-36x36.png" width="28" height="28" /> 5- Kodun Açıklamaları](#kod)<br>
 
-### 1.SpringBoot ile final projesi:
+<hr>
+
+### Proje:
 
 ● Bir müşteri bilgisi alıp kayıt eden, bir fatura bilgisi kayıt
 eden ve bu bilgileri sorgulayan restApi ler olacak.
@@ -63,26 +69,50 @@ Müşteri için; ad, soyad, abone no
 
 Fatura; fatura no, abone no, fatura tutarı, fatura işlem tarihi
 
-Payment ; amount, date, fatura no, abone no
+Payment ; amount, date, abone no
 
-### 2.SOS Oyunu:
+<hr>
 
-Kare şeklinde nxn kutulardan oluşan bir panelde iki kişi tarafından oynanan bir oyundur. Oyun sırasında her bir kutuya s yada o harflerinden biri yerleştirilir. Oyunun başında hangi oyuncunun hangi harfi yerleştireceği ve kimin başlayacağına karar verilir. Amaç bir harf koyduğumuzda yatayda, dikeyde yada çaprazda SOS kelimesini oluşturmaktır. SOS kelimesini oluşturan oyuncu 1 puan alır ve tekrar harf ekleme hakkı kazanır. Panel üzerinde hiç boş kutu kalmayana kadar oyun oynanır, sonunda en çok puanı alan oyunu kazanır.
+### Tablolar
 
-#### Kurallar:
+*User* : Kullanıcı bilgilerini tutmaktadır. İçerisinde 3 tane Sütun(Column) bulunmaktadır. Bunlar: id(abone_no), name ve surmane.
 
-- Panel büyüklüğü oyunun en başında konsoldan girdi olarak alınır. Minimum 3x3 maksimum 7x7 büyüklüğünde olmalıdır.
+*Invoice* : Kullanıcının fatura bilgilerini tutmaktadır. Bir kullanıcının birden fazla faturası olabilir. Bir fatura da sadece bir kullanıcıya ait olabilir. Yani User tablosu ile OneToMany ilişkisi bulunmakta. Örneğin kullanıcının internet,elektrik ve su faturalarının'nın tutarları invoice de ayrı satır(Row) olarak tutulmaktadır.
+İçerisinde 5 adet Sütun(Column) bulunmaktadır: id(fatura_no), client_id(abone_no), is_pay, total, transaction_date. client_id, oneToMany ilişkisi için tutulmaktadır. is_pay, faturanın ödenip ödenmediğini tutan bir boolean değerdir. total, faturanın tutarıdır. transaction_date, İşlemin yapıldığı tarihtir.
 
-- Oyun bir kullanıcı tarafından bilgisayara karşı oynanır.
+*Payment* : Bir kullanıcının faturalarının toplam tutarını tutmaktadır. Örneğin bir kullanıcının elektrik faturası: 100, su faturası: 150, internet faturası: 120 olursa. Bu kullanıcının ödemesi gereken toplam tutar 320 tl olmaktadır. Bu durumda Payment bunu tutmaktadır. Her bir kullanıcı için bir Payment satırı olmalıdır. Eğer kullanıcının ödenmmeiş bir faturası yoksa da payment'daki totalAmount değeri 0 olmalıdır. Kullanıcıya ait herhangi bir faturadaki değer değişirse(azalır ya da artarsa), silinirse ya da ödenirse payment değeri de ona göre değişecektir. Burası kod kısmında anlatılmaktadır. Her bir kullanıcı için bir Payment değeri olduğu için bu tablo ile kullanıcı arasında OneToOne ilişkisi bulunmaktadır. Aynı zamanda bu tabloya direk kullanıcı tarafından CRUD işlemleri yapılmamalıdır. Invoice ve User tablolarına eklenen veriler ile CRUD işlemi otomatik yapılmalıdır. Örneğin yeni bir fatura eklendiğinde. O faturanın sahibi olan kullanıcının payment değeri değiştirilmelidir. Ya da yeni bir kullanıcı eklendiğinde payment tablosuna da yeni bir değer eklenip totalAmount değeri 0 olarak ayarlanmalıdır (Kullanıcı yeni oluşturulduğu için herhangi bir faturası mevcut değil. Bu sebeple varsayılan totalAmount 0 olarak ayarlı.) İçerisinde 4 adet Sütun(Column) mevcuttur: id, client_id, date, totalAmount.
 
-- Hangi oyuncunun hangi harfi alacağına ve kimin başlayacağına random karar verilir.
+<hr>
 
-- Oyuncu hangi kutuya harfini girmek istediğini satır ve sütun numarasını konsoldan girerek belli eder.
+### Path:
 
-- Bilgisayar hangi kutuya harf yazacağına panel üzerindeki boş kutulardan birini random seçerek karar verir.
+*User* :
 
-- Panele her karakter girişinde panelin güncel hali satır ve sütun numaraları ile birlikte ve oyuncuların puan durumu ekranda gösterilir.
+  - http://localhost:8080/users/get         -> (Get) Bütün kullanıcıları getirir
+  - http://localhost:8080/users/get/{id}    -> (Get) Id değeri girilen kullanıcıyı getirir
+  - http://localhost:8080/users/createUser  -> (Post) Yeni bir kullanıcı ekler
+  - http://localhost:8080/users/delete/{id} -> (Delete) Id değeri girilen kullanıyı veri tabanından siler
+  - http://localhost:8080/users/update/{id} -> (Put) Id değeri girilen kullanıcının bilgilerini gelen bilgilere göre günceller.
+  
+*Invoice* :
 
-- Dolu kutulara harf yazılmasına izin verilmez.
+  - http://localhost:8080/invoice/get                      -> (Get) Bütün faturaları getirir.
+  - http://localhost:8080/invoice/get/{id}                 -> (Get) Id değeri girilen faturayı getirir
+  - http://localhost:8080/invoice/get/clientid/{clientId}  -> (Get) Id değeri girilen kullanıcının faturalarını getirir
+  - http://localhost:8080/invoice/createInvoice            -> (Post) Yeni Fatura değeri oluşturulur
+  - http://localhost:8080/invoice//delete/{id}             -> (Delete) Id değeri girilen faturayı veri tabanından siler
+  - http://localhost:8080/invoice//update/{id}             -> (Put) Id değeri girilen faturanın bilgilerini gelen bilgilere göre günceller
+  - http://localhost:8080/invoice//pay/{id}                -> (Put) Kullanıcın faturayı ödemesi sağlanır
+  
+*Payment* :
+  - http://localhost:8080/payment/get                      -> (Get) Bütün Payment'ları getirir.
+  - http://localhost:8080/payment/get/{id}                 -> (Get) Id değeri girilen payment'ı getirir
+  - http://localhost:8080/payment//pay/{id}                -> (Put) Kullanıcıya ait bütün faturaları ödemesini sağlar (Payment butün faturaların tutarlarını tutuyordu.)
 
-## Adada
+<hr>
+
+### Postman
+
+<hr>
+
+### Kod
