@@ -2,7 +2,7 @@
 
 **```Toplam iki tane bitirme projesi ödevi mevcuttur. İstenilen proje dosyasına girilerek dosya içerisindeki Readme.md dosyasını inceleyebilir ve o projedeki kodlara ve nasıl çalıştığına bakabilirsiniz. Aşağıda sadece tasarlanması istenilen projelerin açıklamaları mevcuttur:```**
 
-[<img src="https://i.ibb.co/XbyGTrP/1-authentication-2-36x36.png" width="28" height="28" /> Deneme](#denemekismi)<br>
+[<img src="https://i.ibb.co/XbyGTrP/1-authentication-2-36x36.png" width="28" height="28" /> Deneme](#adada)<br>
 
 ### 1.SpringBoot ile final projesi:
 
@@ -85,4 +85,4 @@ Kare şeklinde nxn kutulardan oluşan bir panelde iki kişi tarafından oynanan 
 
 - Dolu kutulara harf yazılmasına izin verilmez.
 
-##denemekismi
+## Adada
