@@ -6,7 +6,6 @@
 [<img src="https://i.ibb.co/XbyGTrP/1-authentication-2-36x36.png" width="28" height="28" /> 2- Veritabanındaki tablo açıklamaları](#tablolar)<br>
 [<img src="https://i.ibb.co/XbyGTrP/1-authentication-2-36x36.png" width="28" height="28" /> 3- Path Açıklamaları](#path)<br>
 [<img src="https://i.ibb.co/XbyGTrP/1-authentication-2-36x36.png" width="28" height="28" /> 4- Postman Kullanımı](#postman)<br>
-[<img src="https://i.ibb.co/XbyGTrP/1-authentication-2-36x36.png" width="28" height="28" /> 5- Kodun Açıklamaları](#kod)<br>
 
 <hr>
 
@@ -80,7 +79,7 @@ Payment ; amount, date, abone no
 *Invoice* : Kullanıcının fatura bilgilerini tutmaktadır. Bir kullanıcının birden fazla faturası olabilir. Bir fatura da sadece bir kullanıcıya ait olabilir. Yani User tablosu ile OneToMany ilişkisi bulunmakta. Örneğin kullanıcının internet,elektrik ve su faturalarının'nın tutarları invoice de ayrı satır(Row) olarak tutulmaktadır.
 İçerisinde 5 adet Sütun(Column) bulunmaktadır: id(fatura_no), client_id(abone_no), is_pay, total, transaction_date. client_id, oneToMany ilişkisi için tutulmaktadır. is_pay, faturanın ödenip ödenmediğini tutan bir boolean değerdir. total, faturanın tutarıdır. transaction_date, İşlemin yapıldığı tarihtir.
 
-*Payment* : Bir kullanıcının faturalarının toplam tutarını tutmaktadır. Örneğin bir kullanıcının elektrik faturası: 100, su faturası: 150, internet faturası: 120 olursa. Bu kullanıcının ödemesi gereken toplam tutar 320 tl olmaktadır. Bu durumda Payment bunu tutmaktadır. Her bir kullanıcı için bir Payment satırı olmalıdır. Eğer kullanıcının ödenmmeiş bir faturası yoksa da payment'daki totalAmount değeri 0 olmalıdır. Kullanıcıya ait herhangi bir faturadaki değer değişirse(azalır ya da artarsa), silinirse ya da ödenirse payment değeri de ona göre değişecektir. Burası kod kısmında anlatılmaktadır. Her bir kullanıcı için bir Payment değeri olduğu için bu tablo ile kullanıcı arasında OneToOne ilişkisi bulunmaktadır. Aynı zamanda bu tabloya direk kullanıcı tarafından CRUD işlemleri yapılmamalıdır. Invoice ve User tablolarına eklenen veriler ile CRUD işlemi otomatik yapılmalıdır. Örneğin yeni bir fatura eklendiğinde. O faturanın sahibi olan kullanıcının payment değeri değiştirilmelidir. Ya da yeni bir kullanıcı eklendiğinde payment tablosuna da yeni bir değer eklenip totalAmount değeri 0 olarak ayarlanmalıdır (Kullanıcı yeni oluşturulduğu için herhangi bir faturası mevcut değil. Bu sebeple varsayılan totalAmount 0 olarak ayarlı.) İçerisinde 4 adet Sütun(Column) mevcuttur: id, client_id, date, totalAmount.
+*Payment* : Bir kullanıcının faturalarının toplam tutarını tutmaktadır. Örneğin bir kullanıcının elektrik faturası: 100, su faturası: 150, internet faturası: 120 olursa. Bu kullanıcının ödemesi gereken toplam tutar 320 tl olmaktadır. Bu durumda Payment bunu tutmaktadır. Her bir kullanıcı için bir Payment satırı olmalıdır. Eğer kullanıcının ödenmmeiş bir faturası yoksa da payment'daki totalAmount değeri 0 olmalıdır. Kullanıcıya ait herhangi bir faturadaki değer değişirse(azalır ya da artarsa), silinirse ya da ödenirse payment değeri de ona göre değişecektir. Her bir kullanıcı için bir Payment değeri olduğu için bu tablo ile kullanıcı arasında OneToOne ilişkisi bulunmaktadır. Aynı zamanda bu tabloya direk kullanıcı tarafından CRUD işlemleri yapılmamalıdır. Invoice ve User tablolarına eklenen veriler ile CRUD işlemi otomatik yapılmalıdır. Örneğin yeni bir fatura eklendiğinde. O faturanın sahibi olan kullanıcının payment değeri değiştirilmelidir. Ya da yeni bir kullanıcı eklendiğinde payment tablosuna da yeni bir değer eklenip totalAmount değeri 0 olarak ayarlanmalıdır (Kullanıcı yeni oluşturulduğu için herhangi bir faturası mevcut değil. Bu sebeple varsayılan totalAmount 0 olarak ayarlı.) İçerisinde 4 adet Sütun(Column) mevcuttur: id, client_id, date, totalAmount.
 
 <hr>
 
@@ -113,6 +112,130 @@ Payment ; amount, date, abone no
 
 ### Postman
 
+ - Proje sıfırdan başlatıldığında bütün tabloları create-drop yapıyor. Bu sebeple daha temiz bir başlangıç oluyor. Aşağıdaki postman'leri de sırasıyla yaptım. Bunun sayesinde aşamalar daha rahat takip edilebiliyor.
+ 
+ </br>
+ </br>
+ 
+    İlk olarak bir tane kullanıcı oluşturalım:
+ </br>
+ <img align="center" src="img/postman/createUser.jpeg" alt="createUserPostman" />
+ </br>
+ </br>
+ 
+    3 tane kullanıcı ekleyip user tablosuna get yaptığımızda da aşağıdaki sonuca ulaşırız: 
+ </br>
+ <img align="center" src="img/postman/users.jpeg" alt="getUserPostman" />
+ </br>
+ </br>
+ 
+    3 tane kullanıcıyı ekledikten sonra veritabanındaki users tablosuna bakacak olursak:
+ </br>
+ <img align="center" src="img/database/afterCreateUserUsers.jpeg" alt="creatUserUsersDatabase" />
+ </br>
+ </br>
+ 
+    3 tane kullanıcıyı ekledikten sonra veritabanındaki payment tablosuna bakacak olursak (Kullanıcılar yeni eklendiği için herhangi bir fatura kayıtlı değil bu sebeple totalAmount'lar sıfır olarak gözüküyor.):
+ </br>
+ <img align="center" src="img/database/afterCreateUserPayment.jpeg" alt="creatUserPaymentDatabase" />
+ </br>
+ </br>
+ 
+    3 tane kullanıcıyı ekledikten sonra veritabanındaki payment tablosuna bakacak olursak (Kullanıcılar yeni eklendiği için herhangi bir fatura kayıtlı değil bu sebeple totalAmount'lar sıfır olarak gözüküyor.):
+ </br>
+ <img align="center" src="img/database/afterCreateUserPayment.jpeg" alt="creatUserPaymentDatabase" />
+ </br>
+ </br>
+ 
+    İlk kullanıcıya ait bir fatura oluşturalım:
+ </br>
+ <img align="center" src="img/postman/createInvoice.jpeg" alt="createInvoicePostman" />
+ </br>
+ </br>
+ 
+    İlk kullanıcıya ait üç tane fatura eklersek ve Invoices tablosuna get yaparsak şu sonuçla karşılaşırız:
+ </br>
+ <img align="center" src="img/postman/invoices.jpeg" alt="InvoicesPostman" />
+ </br>
+ </br>
+ 
+    Invoices tablosuna veritabanından bakacak olursak:
+ </br>
+ <img align="center" src="img/database/afterCreateInvoiceInvoices.jpeg" alt="afterCreateInvoiceInvoicesDatabase" />
+ </br>
+ </br>
+ 
+     Invoices ekledikten sonra payment tablosuna bakacak olursak (Bir kullanıcıya ait fatura eklendiği için payment'daki değer de eklenen fatura tutarlarının toplamı olacaktır.):
+ </br>
+ <img align="center" src="img/database/afterCreateInvoicePayment.jpeg" alt="afterCreateInvoicePaymentDatabase" />
+ </br>
+ </br>
+ 
+      Invoices tablosuna, kendi id'sine göre get yaparsak şu sonuçla karşılaşıtırz:
+ </br>
+ <img align="center" src="img/postman/invoices_with_id.jpeg" alt="invoices_with_idPostman" />
+ </br>
+ </br>
+ 
+      Bir kullanıcıya ait bütün faturaları getirmek istersek client_id'ye göre path'i çağırabiliriz:
+ </br>
+ <img align="center" src="img/postman/invoices_with_client_id.jpeg" alt="invoices_with_client_idPostman" />
+ </br>
+ </br>
+ 
+     Bir faturayı silmek istersek:
+ </br>
+ <img align="center" src="img/postman/deleteInvoice.jpeg" alt="deleteInvoicePostman" />
+ </br>
+ </br>
+ 
+      Fatura silindikten sonra Invoice tablosuna bakarsak:
+ </br>
+ <img align="center" src="img/database/afterDeleteInvoiceInvoices.jpeg" alt="afterDeleteInvoiceInvoicesDatabase" />
+ </br>
+ </br>
+ 
+       Fatura silindikten sonra Payment tablosuna bakarsak(Payment faturaların toplamını tuttuğu için fatura silinirse payment'dan da o değer azaltılmalı. Bu sebeple paymnet tablosu da update olur):
+ </br>
+ <img align="center" src="img/database/afterDeleteInvoicePayment.jpeg" alt="afterDeleteInvoicePaymentDatabase" />
+ </br>
+ </br>
+ 
+        Fatura tablosundan sadece bir faturanın tutarını değiştirmek istersek:
+ </br>
+ <img align="center" src="img/postman/updateInvoice.jpeg" alt="updateInvoicePostman" />
+ </br>
+ </br>
+ 
+         Fatura tablosu güncellendikten sonra tabloya bakacak olursak da:
+ </br>
+ <img align="center" src="img/database/afterUpdateInvoiceInvoices.jpeg" alt="afterUpdateInvoiceInvoicesDatabase" />
+ </br>
+ </br>
+ 
+         Fatura tablosu güncellendikten sonra payment tablosuna bakacak olursak(Faturanın tutarı güncellendiği için payment tablosundaki toplam değerin de güncellenmesi gerekir. Yani payment tablosu update olur):
+ </br>
+ <img align="center" src="img/database/afterUpdateInvoicePayment.jpeg" alt="afterUpdateInvoicePaymentDatabase" />
+ </br>
+ </br>
+ 
+          Bir faturayı ödemek istersek:
+ </br>
+ <img align="center" src="img/postman/payInvoice.jpeg" alt="payInvoiceDatabase" />
+ </br>
+ </br>
+ 
+           Bir faturayı ödedikten sonra Invoice tablosuna bakacak olursak:
+ </br>
+ <img align="center" src="img/database/afterPayInvoice.jpeg" alt="afterPayInvoiceDatabase" />
+ </br>
+ </br>
+ 
+           Bir faturayı ödedikten sonra Payment tablosuna bakacak olursak (Payment tablosu ödenmeken faturaların toplamını tuttuğu için bir fatura ödendikten sonra o faturanın tutarı payment'tan azaltılmalı. Yani payment tablosu update olur):
+ </br>
+ <img align="center" src="img/database/afterPayPayment.jpeg" alt="afterPayPaymentDatabase" />
+ </br>
+ </br>
+
 <hr>
 
-### Kod
