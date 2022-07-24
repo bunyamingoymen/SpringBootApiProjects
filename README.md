@@ -117,7 +117,7 @@ Payment ; amount, date, abone no
  </br>
  </br>
  
-    İlk olarak bir tane kullanıcı oluşturalım:
+    İlk olarak bir tane kullanıcı oluşturmak için user/createUser path'ine name ve surname değerlerini içeren JSON formatını gönderiyoruz. User tablosuna ekleme yapıldığında otomatik olarak Paymnet tablosuna da ekleme yapılmaktadır (Aşağıdaki resimlerde payment tablosunun durumuna bakabilirsiniz):
  </br>
  <img align="center" src="img/postman/createUser.jpeg" alt="createUserPostman" />
  </br>
@@ -129,25 +129,19 @@ Payment ; amount, date, abone no
  </br>
  </br>
  
-    3 tane kullanıcıyı ekledikten sonra veritabanındaki users tablosuna bakacak olursak:
+    3 tane kullanıcıyı ekledikten sonra veritabanındaki users tablosuna bakacak olursak böyle bir sonuçla karşılaşırız:
  </br>
  <img align="center" src="img/database/afterCreateUserUsers.jpeg" alt="creatUserUsersDatabase" />
  </br>
  </br>
  
-    3 tane kullanıcıyı ekledikten sonra veritabanındaki payment tablosuna bakacak olursak (Kullanıcılar yeni eklendiği için herhangi bir fatura kayıtlı değil bu sebeple totalAmount'lar sıfır olarak gözüküyor.):
+    3 tane kullanıcıyı ekledikten sonra veritabanındaki payment tablosuna bakacak olursak her kullanıcı için otomatik olarak paymnet da da yeni bir değer eklendiğini görürüz. Ancak bu değerler sıfır olacaktır. Çünkü hiçbir kullanıcının ödenmemiş faturası henüz yoktur. Bir kullanıcıya ait fatura eklendiğinde buradaki değerler de güncellenecektir:
  </br>
  <img align="center" src="img/database/afterCreateUserPayment.jpeg" alt="creatUserPaymentDatabase" />
  </br>
  </br>
  
-    3 tane kullanıcıyı ekledikten sonra veritabanındaki payment tablosuna bakacak olursak (Kullanıcılar yeni eklendiği için herhangi bir fatura kayıtlı değil bu sebeple totalAmount'lar sıfır olarak gözüküyor.):
- </br>
- <img align="center" src="img/database/afterCreateUserPayment.jpeg" alt="creatUserPaymentDatabase" />
- </br>
- </br>
- 
-    İlk kullanıcıya ait bir fatura oluşturalım:
+    İlk kullanıcıya ait bir fatura oluşturmak için JSON değerlerini invoice/createInvoice path'ine post olarak yollamamız yeterli olacaktır. client_id değerini de 1 olarak ayarladığımızda ilk kullanıcıya ait fatura eklenmiş olacaktır.:
  </br>
  <img align="center" src="img/postman/createInvoice.jpeg" alt="createInvoicePostman" />
  </br>
@@ -159,79 +153,79 @@ Payment ; amount, date, abone no
  </br>
  </br>
  
-    Invoices tablosuna veritabanından bakacak olursak:
+    Invoices tablosuna veritabanından bakacak olursak eklediğimiz faturayı görüntüleyebiliriz:
  </br>
  <img align="center" src="img/database/afterCreateInvoiceInvoices.jpeg" alt="afterCreateInvoiceInvoicesDatabase" />
  </br>
  </br>
  
-     Invoices ekledikten sonra payment tablosuna bakacak olursak (Bir kullanıcıya ait fatura eklendiği için payment'daki değer de eklenen fatura tutarlarının toplamı olacaktır.):
+     Invoices ekledikten sonra payment tablosuna bakacak olursak da eklenen fatura tutarının payment tablosundaki değerin de güncellendiğini göreceğiz. Çünkü payment tablosu bütün fatura tutarlarını tutmakta. Yeni bir fatura eklendiğinde de o fatura tutarı payment tablosunda da gözükebilmeli :
  </br>
  <img align="center" src="img/database/afterCreateInvoicePayment.jpeg" alt="afterCreateInvoicePaymentDatabase" />
  </br>
  </br>
  
-      Invoices tablosuna, kendi id'sine göre get yaparsak şu sonuçla karşılaşıtırz:
+      Invoices tablosuna, kendi id'sine göre get yaparsak sadece çağırdığımız id'li fatura gelecektir.:
  </br>
  <img align="center" src="img/postman/invoices_with_id.jpeg" alt="invoices_with_idPostman" />
  </br>
  </br>
  
-      Bir kullanıcıya ait bütün faturaları getirmek istersek client_id'ye göre path'i çağırabiliriz:
+      Bir kullanıcıya ait bütün faturaları getirmek istersek client_id'ye göre path'i çağırabiliriz. Böyle yaparak bir kullanıcının bütün faturalarını görüntüleyebiliriz:
  </br>
  <img align="center" src="img/postman/invoices_with_client_id.jpeg" alt="invoices_with_client_idPostman" />
  </br>
  </br>
  
-     Bir faturayı silmek istersek:
+     Bir faturayı silmek istersek delete deyip id değerini verdikten sonra silme işlemini yapabiliriz:
  </br>
  <img align="center" src="img/postman/deleteInvoice.jpeg" alt="deleteInvoicePostman" />
  </br>
  </br>
  
-      Fatura silindikten sonra Invoice tablosuna bakarsak:
+      Fatura silindikten sonra Invoice tablosuna bakacak olursak silmek istediğimiz değerin silindiğini görebiliriz:
  </br>
  <img align="center" src="img/database/afterDeleteInvoiceInvoices.jpeg" alt="afterDeleteInvoiceInvoicesDatabase" />
  </br>
  </br>
  
-       Fatura silindikten sonra Payment tablosuna bakarsak(Payment faturaların toplamını tuttuğu için fatura silinirse payment'dan da o değer azaltılmalı. Bu sebeple paymnet tablosu da update olur):
+       Fatura silindikten sonra Payment tablosuna bakacak olursak silinen fatura tutarının payment tablosunda azaldığını göreceğiz. Çünkü paymnet tablosu var olan faturaların toplamını tutmakta. Bu sebple bir fatura silinirse de payment tablosundan da fatura ttuarı kadar azaltma işlemi olmalı:
  </br>
  <img align="center" src="img/database/afterDeleteInvoicePayment.jpeg" alt="afterDeleteInvoicePaymentDatabase" />
  </br>
  </br>
  
-        Fatura tablosundan sadece bir faturanın tutarını değiştirmek istersek:
+        Fatura tablosundan bir faturanın sadece tutarını değiştirmek istersek JSON kısmına sadece total değerini girmemiz yeterlidir. Diğer değerleer null döndüğü için otomatik olarak güncelleme kısmına dahil edilmemektedir. Null olup olmadığını da kod üzerinden kontrol edilmektedir :
  </br>
  <img align="center" src="img/postman/updateInvoice.jpeg" alt="updateInvoicePostman" />
  </br>
  </br>
  
-         Fatura tablosu güncellendikten sonra tabloya bakacak olursak da:
+         Fatura tablosu güncellendikten sonra tabloya bakacak olursak da gerekli bilgilerin güncellendiğini görebiliriz:
  </br>
  <img align="center" src="img/database/afterUpdateInvoiceInvoices.jpeg" alt="afterUpdateInvoiceInvoicesDatabase" />
  </br>
  </br>
  
-         Fatura tablosu güncellendikten sonra payment tablosuna bakacak olursak(Faturanın tutarı güncellendiği için payment tablosundaki toplam değerin de güncellenmesi gerekir. Yani payment tablosu update olur):
+         Fatura tablosu güncellendikten sonra payment tablosuna bakacak olursak; Payment tablosu da girilen tutar kadar değişmiş olacaktır. Yani fatura tutarı azaltılıtsa, azaltılan tutar kadar payment tablosundaki değer de azalacaktır. Artırılırsa da artan tutar kadar payment tablosundaki değer arttırılacaktır:
  </br>
  <img align="center" src="img/database/afterUpdateInvoicePayment.jpeg" alt="afterUpdateInvoicePaymentDatabase" />
  </br>
  </br>
  
-          Bir faturayı ödemek istersek:
+          Bir faturayı ödemek istersek sadece pay yazıp ödemek istediğimiz id değerini girmekteyiz. Böylelikle veri tabanında güncelleme işlemi yapmaktayız:
  </br>
  <img align="center" src="img/postman/payInvoice.jpeg" alt="payInvoiceDatabase" />
  </br>
  </br>
  
-           Bir faturayı ödedikten sonra Invoice tablosuna bakacak olursak:
+           Bir faturayı ödedikten sonra Invoice tablosuna bakacak olursak ödenen faturanın isPay değerinin true olduğunu göreceğiz:
  </br>
  <img align="center" src="img/database/afterPayInvoice.jpeg" alt="afterPayInvoiceDatabase" />
  </br>
  </br>
  
-           Bir faturayı ödedikten sonra Payment tablosuna bakacak olursak (Payment tablosu ödenmeken faturaların toplamını tuttuğu için bir fatura ödendikten sonra o faturanın tutarı payment'tan azaltılmalı. Yani payment tablosu update olur):
+           Bir faturayı ödedikten sonra Payment tablosuna bakacak olursak Payment değerinin fatura tutarı kadar azaldığını göreceğiz (Payment tablosu ödenmeken faturaların toplamını tuttuğu için bir fatura ödendikten sonra o faturanın tutarı payment'tan azaltılmalı. Yani payment tablosu update olur):
  </br>
  <img align="center" src="img/database/afterPayPayment.jpeg" alt="afterPayPaymentDatabase" />
  </br>
