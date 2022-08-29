@@ -1,4 +1,4 @@
-# *<p align="center">Evam Java Bootcamp Final Projesi</p>*
+# *<p align="center">Spring Boot Api Projesi</p>*
 
 ## Bölümler:
 
